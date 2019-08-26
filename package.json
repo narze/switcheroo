@@ -3,6 +3,11 @@
   "displayName": "Switcheroo",
   "description": "Switch code & test files quickly, rules are customizable",
   "version": "0.0.1",
+  "publisher": "narze",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/narze/switcheroo.git"
+  },
   "engines": {
     "vscode": "^1.37.0"
   },
