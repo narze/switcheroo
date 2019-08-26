@@ -10,14 +10,29 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.helloWorld"
+    "onCommand:extension.helloWorld",
+    "onCommand:extension.switcheroo.swap"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"commands": [{
-			"command": "extension.helloWorld",
-			"title": "Hello World"
-		}]
+		"commands": [
+      {
+        "command": "extension.helloWorld",
+        "title": "Hello World"
+      },
+      {
+        "command": "extension.switcheroo.swap",
+        "title": "Switcheroo - Swap"
+      }
+    ],
+    "keybindings": [
+			{
+				"command": "extension.switcheroo.swap",
+				"key": "ctrl+shift+y",
+				"mac": "cmd+shift+y",
+				"when": "editorTextFocus"
+      }
+    ]
 	},
 	"scripts": {
 		"vscode:prepublish": "yarn run compile",

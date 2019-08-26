@@ -20,7 +20,15 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.window.showInformationMessage('Hello World!');
 	});
 
-	context.subscriptions.push(disposable);
+  context.subscriptions.push(disposable);
+
+	let swapCommand = vscode.commands.registerCommand('extension.switcheroo.swap', async () => {
+    let document = await vscode.workspace.openTextDocument('/tmp/hello_test.txt');
+
+    return vscode.window.showTextDocument(document);
+	});
+
+	context.subscriptions.push(swapCommand);
 }
 
 // this method is called when your extension is deactivated
