@@ -23,21 +23,27 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(disposable);
 
 	let swapCommand = vscode.commands.registerCommand('extension.switcheroo.swap', async () => {
-    let mappings = await vscode.workspace.getConfiguration().get('switcheroo.mappings');
-    let currentFile = await vscode.window.activeTextEditor!.document.fileName;
+    let mappings: Array<Array<string>> = await vscode.workspace.getConfiguration().get('switcheroo.mappings') || [];
+    let currentFile = vscode.window.activeTextEditor!.document.fileName;
 
-    for (let mapping of mappings) {
-      let index = mapping.indexOf(currentFile);
+    if (vscode.workspace.workspaceFolders) {
+      let workspaceRoot = vscode.workspace.workspaceFolders[0].uri.path;
+      let currentFileRelative = currentFile.split(workspaceRoot + '/')[1];
 
-      if (index !== -1) {
-        let nextIndex = (index + 1) % mapping.length;
-        let nextFile = mapping[nextIndex];
-        let document = await vscode.workspace.openTextDocument(nextFile);
+      for (let mapping of mappings) {
+        let index = mapping.indexOf(currentFileRelative);
 
-        return vscode.window.showTextDocument(document);
+        if (index !== -1) {
+          let nextIndex = (index + 1) % mapping.length;
+          let nextFile = mapping[nextIndex];
+          let document = await vscode.workspace.openTextDocument(workspaceRoot + '/' + nextFile);
+
+          return vscode.window.showTextDocument(document);
+        }
       }
+    } else {
+      return vscode.window.showErrorMessage('Switcheroo : Please add a folder to this workspace to use this function.');
     }
-
     return;
 	});
 

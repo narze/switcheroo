@@ -1,11 +1,14 @@
 import * as assert from 'assert';
 import { before } from 'mocha';
 import * as fs from 'fs';
+import * as path from 'path';
 
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
 import * as vscode from 'vscode';
 // import * as myExtension from '../extension';
+
+const workspacePath = path.resolve(__dirname, '../../../src/test/fixtures/workspace');
 
 suite('Extension Test Suite', () => {
 	before(() => {
@@ -14,21 +17,23 @@ suite('Extension Test Suite', () => {
 
 	test('Create & open files', async () => {
     let files:string[] = [
-      "/tmp/hello.txt",
-      "/tmp/hello_test.txt",
+      "hello.txt",
+      "hello_test.txt",
     ];
 
     for (let file of files) {
-      fs.closeSync(fs.openSync(file, 'w'));
+      fs.closeSync(fs.openSync(`${workspacePath}/${file}`, 'w'));
     }
 
+    // Update config
+    // TODO: Update temp config
     let target = vscode.ConfigurationTarget.Global;
     await vscode.workspace.getConfiguration('switcheroo').update('mappings', [files], target);
 
     // Open file
     let doc = await vscode
       .workspace
-      .openTextDocument(files[0]);
+      .openTextDocument(`${workspacePath}/${files[0]}`);
 
     await vscode.window.showTextDocument(doc);
 
@@ -36,6 +41,6 @@ suite('Extension Test Suite', () => {
     await vscode.commands.executeCommand('extension.switcheroo.swap');
 
     // Expect another file
-    assert(vscode.window.activeTextEditor!.document.fileName === files[1]);
-	});
+    assert(vscode.window.activeTextEditor!.document.fileName === `${workspacePath}/${files[1]}`);
+	}).timeout(5000);
 });
