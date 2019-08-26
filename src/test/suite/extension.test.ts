@@ -22,6 +22,9 @@ suite('Extension Test Suite', () => {
       fs.closeSync(fs.openSync(file, 'w'));
     }
 
+    let target = vscode.ConfigurationTarget.Global;
+    await vscode.workspace.getConfiguration('switcheroo').update('mappings', [files], target);
+
     // Open file
     let doc = await vscode
       .workspace
@@ -33,6 +36,6 @@ suite('Extension Test Suite', () => {
     await vscode.commands.executeCommand('extension.switcheroo.swap');
 
     // Expect another file
-    assert(vscode.window.activeTextEditor!.document.fileName == files[1]);
+    assert(vscode.window.activeTextEditor!.document.fileName === files[1]);
 	});
 });

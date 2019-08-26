@@ -23,9 +23,22 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(disposable);
 
 	let swapCommand = vscode.commands.registerCommand('extension.switcheroo.swap', async () => {
-    let document = await vscode.workspace.openTextDocument('/tmp/hello_test.txt');
+    let mappings = await vscode.workspace.getConfiguration().get('switcheroo.mappings');
+    let currentFile = await vscode.window.activeTextEditor!.document.fileName;
 
-    return vscode.window.showTextDocument(document);
+    for (let mapping of mappings) {
+      let index = mapping.indexOf(currentFile);
+
+      if (index !== -1) {
+        let nextIndex = (index + 1) % mapping.length;
+        let nextFile = mapping[nextIndex];
+        let document = await vscode.workspace.openTextDocument(nextFile);
+
+        return vscode.window.showTextDocument(document);
+      }
+    }
+
+    return;
 	});
 
 	context.subscriptions.push(swapCommand);

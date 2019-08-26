@@ -25,6 +25,19 @@
         "title": "Switcheroo - Swap"
       }
     ],
+    "configuration": [
+      {
+        "title": "Configuration Samples",
+        "properties": {
+          "switcheroo.mappings": {
+            "type": "object",
+            "default": [["app/foo/*.rb", "test/foo/*_test.rb"]],
+            "description": "File mappings to switch",
+            "scope": "resource"
+          }
+        }
+      }
+    ],
     "keybindings": [
       {
         "command": "extension.switcheroo.swap",
