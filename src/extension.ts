@@ -1,6 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import * as fileResolver from './fileResolver';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -31,13 +32,10 @@ export function activate(context: vscode.ExtensionContext) {
       let currentFileRelative = currentFile.split(workspaceRoot + '/')[1];
 
       for (let mapping of mappings) {
-        let index = mapping.indexOf(currentFileRelative);
+        let targetFile = fileResolver.resolve(currentFileRelative, mapping);
 
-        if (index !== -1) {
-          let nextIndex = (index + 1) % mapping.length;
-          let nextFile = mapping[nextIndex];
-          let document = await vscode.workspace.openTextDocument(workspaceRoot + '/' + nextFile);
-
+        if (targetFile) {
+          let document = await vscode.workspace.openTextDocument(workspaceRoot + '/' + targetFile);
           return vscode.window.showTextDocument(document);
         }
       }

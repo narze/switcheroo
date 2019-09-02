@@ -2,7 +2,7 @@
   "name": "switcheroo",
   "displayName": "Switcheroo",
   "description": "Switch code & test files quickly, rules are customizable",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "narze",
   "license": "MIT",
   "repository": {

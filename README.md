@@ -15,10 +15,10 @@ Switch files quickly!
 
 ## WIP
 
-- [ ] Use Globs pattern for mappings eg. `app/**/*.rb`
+- [x] Use Globs pattern for mappings eg. `app/**/*.rb`
 
 ## Release Notes
 
-### 0.0.1
+### 0.0.2
 
 Pre-release
