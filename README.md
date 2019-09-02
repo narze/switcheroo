@@ -4,6 +4,10 @@
 
 Switch files quickly between mappings.
 
+## Usage
+- Setup mappings (samples below.)
+- Run `Switcheroo - Swap` command to switch files. (Shortcut : `Cmd+Shift+Y` / `Ctrl+Shift+Y`)
+
 ## Extension Settings
 
 ```
