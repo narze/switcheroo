@@ -36,7 +36,12 @@
         "properties": {
           "switcheroo.mappings": {
             "type": "object",
-            "default": [["app/foo/*.rb", "test/foo/*_test.rb"]],
+            "default": [
+              [
+                "app/foo/*.rb",
+                "test/foo/*_test.rb"
+              ]
+            ],
             "description": "File mappings to switch",
             "scope": "resource"
           }
@@ -66,8 +71,11 @@
     "@types/vscode": "^1.37.0",
     "glob": "^7.1.4",
     "mocha": "^6.1.4",
-    "typescript": "^3.3.1",
     "tslint": "^5.12.1",
+    "typescript": "^3.3.1",
     "vscode-test": "^1.0.2"
+  },
+  "dependencies": {
+    "micromatch": "^4.0.2"
   }
 }
