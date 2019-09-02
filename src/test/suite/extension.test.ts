@@ -21,6 +21,13 @@ suite('Extension Test Suite', () => {
       "hello_test.txt",
     ];
 
+    let mappings:string[][] = [
+      [
+        "*.txt",
+        "*_test.txt",
+      ]
+    ];
+
     for (let file of files) {
       fs.closeSync(fs.openSync(`${workspacePath}/${file}`, 'w'));
     }
@@ -28,7 +35,7 @@ suite('Extension Test Suite', () => {
     // Update config
     // TODO: Update temp config
     let target = vscode.ConfigurationTarget.Global;
-    await vscode.workspace.getConfiguration('switcheroo').update('mappings', [files], target);
+    await vscode.workspace.getConfiguration('switcheroo').update('mappings', mappings, target);
 
     // Open file
     let doc = await vscode
