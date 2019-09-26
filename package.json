@@ -36,7 +36,7 @@
         "title": "Configuration Samples",
         "properties": {
           "switcheroo.mappings": {
-            "type": "object",
+            "type": "array",
             "default": [
               [
                 "app/foo/*.rb",
