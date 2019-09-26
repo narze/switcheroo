@@ -33,8 +33,7 @@ suite('Extension Test Suite', () => {
     }
 
     // Update config
-    // TODO: Update temp config
-    let target = vscode.ConfigurationTarget.Global;
+    let target = vscode.ConfigurationTarget.WorkspaceFolder;
     await vscode.workspace.getConfiguration('switcheroo').update('mappings', mappings, target);
 
     // Open file
