@@ -40,9 +40,9 @@ export function activate(context: vscode.ExtensionContext) {
             let document = await vscode.workspace.openTextDocument(workspaceRoot + '/' + targetFile);
             return vscode.window.showTextDocument(document);
           } else {
-            let answer = await vscode.window.showQuickPick(['Yes', 'No'], { placeHolder: `Create file ${targetFile}?`});
+            let answer = await vscode.window.showQuickPick([{label: 'Yes'}, {label: 'No'}], { placeHolder: `Create file ${targetFile}?`});
 
-            if (answer === 'Yes') {
+            if (answer && answer.label === 'Yes') {
               fs.writeFileSync(workspaceRoot + '/' + targetFile, "");
 
               let document = await vscode.workspace.openTextDocument(workspaceRoot + '/' + targetFile);

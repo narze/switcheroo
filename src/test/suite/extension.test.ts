@@ -1,5 +1,6 @@
 import * as assert from 'assert';
 import { before } from 'mocha';
+import { stub } from 'sinon';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -33,7 +34,7 @@ suite('Extension Test Suite', () => {
     }
 
     // Update config
-    let target = vscode.ConfigurationTarget.WorkspaceFolder;
+    let target = vscode.ConfigurationTarget.Workspace;
     await vscode.workspace.getConfiguration('switcheroo').update('mappings', mappings, target);
 
     // Open file
@@ -48,5 +49,44 @@ suite('Extension Test Suite', () => {
 
     // Expect another file
     assert(vscode.window.activeTextEditor!.document.fileName === `${workspacePath}/${files[1]}`);
-	}).timeout(5000);
+  }).timeout(5000);
+
+  test('Prompt to create file if counterpart not exists', async() => {
+    let files:string[] = [
+      "hello.txt",
+    ];
+
+    let mappings:string[][] = [
+      [
+        "hello.txt",
+        "hello_test_tmp.txt", // File to be created
+      ]
+    ];
+
+    for (let file of files) {
+      fs.closeSync(fs.openSync(`${workspacePath}/${file}`, 'w'));
+    }
+
+    // Update config
+    let target = vscode.ConfigurationTarget.Workspace;
+    await vscode.workspace.getConfiguration('switcheroo').update('mappings', mappings, target);
+
+    // Open file
+    let doc = await vscode
+    .workspace
+    .openTextDocument(`${workspacePath}/${files[0]}`);
+
+    await vscode.window.showTextDocument(doc);
+
+    // Expect vscode.window.showQuickPick and choose Yes
+    let quickPickStub = stub(vscode.window, "showQuickPick");
+    quickPickStub.resolves({ label: 'Yes' });
+
+    // Swap to other file
+    await vscode.commands.executeCommand('extension.switcheroo.swap');
+
+    assert(fs.existsSync(`${workspacePath}/hello_test_tmp.txt`));
+
+    fs.unlinkSync(`${workspacePath}/hello_test_tmp.txt`);
+  }).timeout(10000);
 });
