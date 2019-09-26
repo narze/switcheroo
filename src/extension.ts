@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import * as fileResolver from './fileResolver';
+import * as fs from 'fs';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -35,8 +36,20 @@ export function activate(context: vscode.ExtensionContext) {
         let targetFile = fileResolver.resolve(currentFileRelative, mapping);
 
         if (targetFile) {
-          let document = await vscode.workspace.openTextDocument(workspaceRoot + '/' + targetFile);
-          return vscode.window.showTextDocument(document);
+          if (fs.existsSync(workspaceRoot + '/' + targetFile)) {
+            let document = await vscode.workspace.openTextDocument(workspaceRoot + '/' + targetFile);
+            return vscode.window.showTextDocument(document);
+          } else {
+            let answer = await vscode.window.showQuickPick(['Yes', 'No'], { placeHolder: `Create file ${targetFile}?`});
+
+            if (answer === 'Yes') {
+              fs.writeFileSync(workspaceRoot + '/' + targetFile, "");
+
+              let document = await vscode.workspace.openTextDocument(workspaceRoot + '/' + targetFile);
+
+              return vscode.window.showTextDocument(document);
+            }
+          }
         }
       }
     } else {
