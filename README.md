@@ -28,6 +28,10 @@ Switch files quickly between mappings.
 
 ## Release Notes
 
+### 0.1.0
+
+- Add dialog to create file if missing
+
 ### 0.0.2
 
 - Add Globs pattern support for mappings eg. `app/**/*.rb`
