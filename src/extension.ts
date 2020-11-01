@@ -42,8 +42,12 @@ export function activate(context: vscode.ExtensionContext) {
           currentFile.split(`${workspaceRoot}${path.sep}`)[1] || "";
 
         for (let mapping of mappings) {
-          const targetFile = fileResolver.resolve(currentFileRelative, mapping);
-          const targetFilePath = `${workspaceRoot}${path.sep}${targetFile}`;
+          let targetFile = fileResolver.resolve(currentFileRelative, mapping);
+          if (targetFile != false) {
+            targetFile = targetFile.replace(/[\\/]/g, path.sep);
+          }
+
+          const targetFilePath = `${workspaceRoot}${path.sep}${targetFile}`
 
           if (targetFile) {
             if (fs.existsSync(targetFilePath)) {

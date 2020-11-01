@@ -1,9 +1,6 @@
 import * as micromatch from "micromatch";
 
-export function resolve(
-  input: string,
-  mapping: Array<string>
-): string | boolean {
+export function resolve(input: string, mapping: Array<string>): string | false {
   for (let [index, pattern] of mapping.entries()) {
     let matches = micromatch.capture(pattern, input.replace(/\\/g, "/"));
 
