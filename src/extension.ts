@@ -39,13 +39,11 @@ export function activate(context: vscode.ExtensionContext) {
       if (vscode.workspace.workspaceFolders) {
         let workspaceRoot = vscode.workspace.workspaceFolders[0].uri.path;
         let currentFileRelative =
-          currentFile.split(path.normalize(workspaceRoot + "/"))[1] || "";
+          currentFile.split(`${workspaceRoot}${path.sep}`)[1] || "";
 
         for (let mapping of mappings) {
           const targetFile = fileResolver.resolve(currentFileRelative, mapping);
-          const targetFilePath = path.normalize(
-            workspaceRoot + "/" + targetFile
-          );
+          const targetFilePath = `${workspaceRoot}${path.sep}${targetFile}`;
 
           if (targetFile) {
             if (fs.existsSync(targetFilePath)) {

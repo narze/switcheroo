@@ -22,9 +22,7 @@ suite("Extension Test Suite", () => {
     let mappings: string[][] = [["*.txt", "*_test.txt"]];
 
     for (let file of files) {
-      fs.closeSync(
-        fs.openSync(path.normalize(`${workspacePath}/${file}`), "w")
-      );
+      fs.closeSync(fs.openSync(`${workspacePath}${path.sep}${file}`, "w"));
     }
 
     // Update config
@@ -35,7 +33,7 @@ suite("Extension Test Suite", () => {
 
     // Open file
     let doc = await vscode.workspace.openTextDocument(
-      path.normalize(`${workspacePath}/${files[0]}`)
+      `${workspacePath}${path.sep}${files[0]}`
     );
 
     await vscode.window.showTextDocument(doc);
@@ -46,7 +44,7 @@ suite("Extension Test Suite", () => {
     // Expect another file
     assert(
       vscode.window.activeTextEditor!.document.fileName ===
-        path.normalize(`${workspacePath}/${files[1]}`)
+        `${workspacePath}${path.sep}${files[1]}`
     );
   }).timeout(5000);
 
@@ -61,9 +59,7 @@ suite("Extension Test Suite", () => {
     ];
 
     for (let file of files) {
-      fs.closeSync(
-        fs.openSync(path.normalize(`${workspacePath}/${file}`), "w")
-      );
+      fs.closeSync(fs.openSync(`${workspacePath}${path.sep}${file}`, "w"));
     }
 
     // Update config
@@ -74,7 +70,7 @@ suite("Extension Test Suite", () => {
 
     // Open file
     let doc = await vscode.workspace.openTextDocument(
-      path.normalize(`${workspacePath}/${files[0]}`)
+      `${workspacePath}${path.sep}${files[0]}`
     );
 
     await vscode.window.showTextDocument(doc);
@@ -86,10 +82,8 @@ suite("Extension Test Suite", () => {
     // Swap to other file
     await vscode.commands.executeCommand("extension.switcheroo.swap");
 
-    assert(
-      fs.existsSync(path.normalize(`${workspacePath}/hello_test_tmp.txt`))
-    );
+    assert(fs.existsSync(`${workspacePath}${path.sep}hello_test_tmp.txt`));
 
-    fs.unlinkSync(path.normalize(`${workspacePath}/hello_test_tmp.txt`));
+    fs.unlinkSync(`${workspacePath}${path.sep}hello_test_tmp.txt`);
   }).timeout(10000);
 });
