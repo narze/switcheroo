@@ -9,10 +9,7 @@ import * as path from "path";
 import * as vscode from "vscode";
 // import * as myExtension from '../extension';
 
-const workspacePath = path.resolve(
-  __dirname,
-  "../../../src/test/fixtures/workspace"
-);
+const workspacePath = path.resolve(__dirname, "../../../fixtures/workspace");
 
 suite("Extension Test Suite", () => {
   before(() => {

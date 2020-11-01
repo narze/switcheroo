@@ -14,7 +14,7 @@ async function main() {
 
     const testWorkspacePath = path.resolve(
       __dirname,
-      "../test/fixtures/workspace"
+      "../../fixtures/workspace"
     );
     const launchArgs = ["--disable-extensions", testWorkspacePath];
 
