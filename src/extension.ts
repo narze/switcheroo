@@ -30,11 +30,15 @@ export function activate(context: vscode.ExtensionContext) {
   let swapCommand = vscode.commands.registerCommand(
     "extension.switcheroo.swap",
     async () => {
+      const activeFile = vscode.window.activeTextEditor;
+      if (activeFile === undefined) return;
+
       let mappings: Array<Array<string>> =
         (await vscode.workspace
           .getConfiguration("switcheroo")
           .get("mappings")) || [];
-      let currentFile = vscode.window.activeTextEditor!.document.fileName;
+
+      const currentFile = activeFile.document.uri.fsPath;
 
       if (vscode.workspace.workspaceFolders) {
         let workspaceRoot = vscode.workspace.workspaceFolders[0].uri.path;
@@ -47,7 +51,7 @@ export function activate(context: vscode.ExtensionContext) {
             targetFile = targetFile.replace(/[\\/]/g, path.sep);
           }
 
-          const targetFilePath = `${workspaceRoot}${path.sep}${targetFile}`
+          const targetFilePath = `${workspaceRoot}${path.sep}${targetFile}`;
 
           if (targetFile) {
             if (fs.existsSync(targetFilePath)) {
