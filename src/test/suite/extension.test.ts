@@ -42,8 +42,10 @@ suite("Extension Test Suite", () => {
     await vscode.commands.executeCommand("extension.switcheroo.swap");
 
     // Expect another file
+    assert(vscode.window.activeTextEditor !== undefined);
+
     assert(
-      vscode.window.activeTextEditor!.document.fileName ===
+      vscode.window.activeTextEditor.document.fileName ===
         `${workspacePath}${path.sep}${files[1]}`
     );
   }).timeout(5000);
