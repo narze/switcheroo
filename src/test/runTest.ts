@@ -16,7 +16,7 @@ async function main() {
       __dirname,
       "../test/fixtures/workspace"
     );
-    const launchArgs = [testWorkspacePath, "--disable-extensions"];
+    const launchArgs = ["--disable-extensions", testWorkspacePath];
 
     // Download VS Code, unzip it and run the integration test
     await runTests({
